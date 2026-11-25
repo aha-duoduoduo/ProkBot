@@ -200,7 +200,7 @@ flowchart LR
 | 平台 | 官方最新版 | 本项目需要的版本 | 怎么获得 | 测试情况 |
 | --- | --- | --- | --- | --- |
 | macOS（Apple Silicon、Intel） | 1.2.3 | 0.71.2 | `mac/patchers/desktop/patch.mjs` 按本机芯片自动下载并校验官方版本 | Apple Silicon 真机实测配对、对话、断线重连和附件；Intel 由用户在 macOS 15.7 上实测生成、配对和多轮对话 |
-| iOS / iPadOS | 1.26.0 | 1.16.0（构建 23152） | 自备已解密的 IPA，用 `ios/release/patch-ios.py` 生成后用自己的证书签名；也可以直接用 [Gitee 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)已注入的未签名 IPA | iPhone 11、iPhone Air 真机实测 |
+| iOS / iPadOS | 1.26.0 | 1.16.0（构建 23152） | 自备已解密的 IPA，用 `ios/release/patch-ios.py` 注入[发行页](https://github.com/aha-duoduoduo/ProkBot/releases)的 `GrokBotLocal.dylib` 并应用字节补丁，再用自己的证书签名安装；也可以直接用 [Gitee 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)已注入补丁的未签名 IPA | iPhone 11、iPhone Air 真机实测 |
 | Linux 服务端 | 不适用 | Host `d0a4baa`；执行电脑 `9d2ac1b`（amd64） | 构建工具自动下载并校验 | x86_64 群晖 DSM 日常使用；Ubuntu 24.04 从零部署实测 |
 
 网页版、Android 和 Windows 客户端见 [ProkBot Plus](https://github.com/ferretgeek/prokbot-plus#client-versions)。
@@ -219,7 +219,9 @@ https://github.com/aha-duoduoduo/ProkBot
 
 想自己动手，就照着[安装说明](docs/INSTALL.md)做。服务端的流程是：`doctor`（检查环境）→ `init`（生成配置）→ `up`（构建并启动）→ `status`（查看状态），然后在管理页填模型、生成配对码，用客户端连接。
 
-下载：[发行页](https://github.com/aha-duoduoduo/ProkBot/releases)按版本提供 Host 和 Mac 补丁包，以及 `manifest.json`、`SHA256SUMS` 校验文件。补丁包里没有官方程序，也没有打好补丁的客户端，客户端要用补丁工具在你自己的电脑上生成。
+下载：[发行页](https://github.com/aha-duoduoduo/ProkBot/releases)按版本提供 Host 和 Mac 补丁包、iOS 注入库 `GrokBotLocal.dylib`，以及 `manifest.json`、`SHA256SUMS` 校验文件。补丁包里没有官方程序，也没有打好补丁的客户端，客户端要用补丁工具在你自己的电脑上生成。
+
+iOS 需要自备已解密的 1.16.0（23152）IPA，用 `ios/release/patch-ios.py` 注入 `GrokBotLocal.dylib`，再用自己的证书签名安装。发行页的 `GrokBotLocal.dylib` 和仓库 `ios/bin/` 里的是同一个文件，补丁工具会核对它的摘要。只注入 dylib 不够，补丁工具还会应用固定的字节补丁，一定要用它生成。已经注入补丁的未签名 IPA 也可以在 [Gitee v2026.11.02 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)下载。
 
 ## 和官方版比较
 

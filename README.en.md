@@ -200,7 +200,7 @@ The patches accept only the versions below and never update themselves. The late
 | Platform | Latest official | Version this project needs | How to get it | Testing |
 | --- | --- | --- | --- | --- |
 | macOS (Apple Silicon, Intel) | 1.2.3 | 0.71.2 | `mac/patchers/desktop/patch.mjs` downloads and verifies the official version for this Mac's chip | Tested on Apple Silicon hardware: pairing, chats, reconnection and attachments. A user tested generation, pairing and chats on an Intel Mac with macOS 15.7 |
-| iOS / iPadOS | 1.26.0 | 1.16.0 (build 23152) | Supply your own decrypted IPA, run `ios/release/patch-ios.py`, then sign it with your own certificate; or use the patched unsigned IPA on the [Gitee release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02) | Tested on iPhone 11 and iPhone Air |
+| iOS / iPadOS | 1.26.0 | 1.16.0 (build 23152) | Supply your own decrypted IPA, inject `GrokBotLocal.dylib` from the [releases page](https://github.com/aha-duoduoduo/ProkBot/releases) and apply the byte patches with `ios/release/patch-ios.py`, then sign it with your own certificate; or use the patched unsigned IPA on the [Gitee release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02) | Tested on iPhone 11 and iPhone Air |
 | Linux server | n/a | Host `d0a4baa`; execution computer `9d2ac1b` (amd64) | The build tools download and verify them | Daily use on an x86_64 Synology DSM; tested from scratch on Ubuntu 24.04 |
 
 For the web, Android and Windows clients, see [ProkBot Plus](https://github.com/ferretgeek/prokbot-plus/blob/main/README.en.md#client-versions).
@@ -219,7 +219,9 @@ Verify the Host and client connections, then give me the access URL and maintena
 
 To do it yourself, follow the [installation guide](docs/INSTALL.en.md). On the server the steps are `doctor` (check the environment) → `init` (create the configuration) → `up` (build and start) → `status`; then set up a model and create a pairing code on the admin page, and connect from the app.
 
-Downloads: each version on the [releases page](https://github.com/aha-duoduoduo/ProkBot/releases) provides the Host and Mac patch packages with `manifest.json` and `SHA256SUMS` checksum files. The packages contain no official programs and no patched apps; you generate the apps on your own computer with the patch tools.
+Downloads: each version on the [releases page](https://github.com/aha-duoduoduo/ProkBot/releases) provides the Host and Mac patch packages, the iOS injection library `GrokBotLocal.dylib`, and `manifest.json` and `SHA256SUMS` checksum files. The packages contain no official programs and no patched apps; you generate the apps on your own computer with the patch tools.
+
+For iOS, supply your own decrypted 1.16.0 (23152) IPA, inject `GrokBotLocal.dylib` with `ios/release/patch-ios.py`, then sign it with your own certificate. The `GrokBotLocal.dylib` on the releases page is the same file as the one in `ios/bin/`, and the patch tool checks its digest. Injecting the dylib alone is not enough: the patch tool also applies fixed byte patches, so always generate the app with it. The patched unsigned IPA is also available on the [Gitee v2026.11.02 release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02).
 
 ## Compared with the official app
 

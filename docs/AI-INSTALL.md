@@ -15,7 +15,7 @@
 | Linux 桌面 | 构建工具拉取固定的官方 `9d2ac1b` amd64 镜像 | 执行电脑容器 |
 | Host | 工具下载 stable Host `d0a4baa`，应用补丁并构建 | `grokbot-host:local` 镜像 |
 | Mac | Patcher 下载并校验 0.71.2 Apple Silicon 原版，应用补丁 | `mac/output.noindex/Grok Bot.app` |
-| iOS | 从 Gitee 发行页下载已注入的未签名 IPA；也可下载清理后的 1.16.0（23152）原版 IPA 自行生成 | 未签名 IPA，保留三个扩展 |
+| iOS | 用户自备已解密的 1.16.0（23152）IPA，用 `ios/release/patch-ios.py` 注入发行页的 `GrokBotLocal.dylib` 并应用字节补丁；也可从 Gitee 发行页下载已注入的未签名 IPA | 未签名 IPA，保留三个扩展 |
 
 ## 部署 Host
 
@@ -68,7 +68,7 @@ node mac/patchers/desktop/patch.mjs
 
 ## iOS 客户端
 
-优先使用 [Gitee v2026.11.02 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)的 `ProkBot-iOS-1.16.0-unsigned.ipa`，由用户自行签名安装。需要自行注入时，使用 [Gitee v2026.11.01 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.01)的 `GrokBot-1.16.0-23152-decrypted-clean.ipa`：
+请用户提供已解密的 Grok Bot 1.16.0（23152）arm64 IPA，主应用及三个扩展都必须是已解密的，用补丁工具生成。补丁工具注入的 `ios/bin/GrokBotLocal.dylib` 与[发行页](https://github.com/aha-duoduoduo/ProkBot/releases)的 `GrokBotLocal.dylib` 是同一个文件，同时会应用字节补丁；不要只注入 dylib。用户没有已解密的 IPA 时，可以直接签名安装 [Gitee v2026.11.02 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)的 `ProkBot-iOS-1.16.0-unsigned.ipa`，或用 [Gitee v2026.11.01 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.01)的 `GrokBot-1.16.0-23152-decrypted-clean.ipa` 生成：
 
 ```sh
 python3 ios/release/patch-ios.py \

@@ -15,7 +15,7 @@ Check architecture, memory, disk space and existing deployments. Reuse existing 
 | Linux desktop | Build tool pulls the pinned official `9d2ac1b` amd64 image | Execution computer container |
 | Host | Tool downloads stable Host `d0a4baa`, applies patches and builds | `grokbot-host:local` image |
 | Mac | Patcher downloads and verifies the 0.71.2 Apple Silicon original and patches it | `mac/output.noindex/Grok Bot.app` |
-| iOS | Download the patched unsigned IPA from the Gitee releases, or build it from the cleaned original 1.16.0 (23152) IPA there | Unsigned IPA retaining all three extensions |
+| iOS | The user supplies a decrypted 1.16.0 (23152) IPA; inject `GrokBotLocal.dylib` from the releases page and apply the byte patches with `ios/release/patch-ios.py`. The patched unsigned IPA on the Gitee releases also works | Unsigned IPA retaining all three extensions |
 
 ## Deploy the Host
 
@@ -68,7 +68,7 @@ Install `mac/output.noindex/Grok Bot.app` into Applications. Zip an existing app
 
 ## iOS client
 
-Use `ProkBot-iOS-1.16.0-unsigned.ipa` from the [Gitee v2026.11.02 release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02) for user signing and installation. To patch it yourself, use `GrokBot-1.16.0-23152-decrypted-clean.ipa` from the [Gitee v2026.11.01 release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.01):
+Ask the user for a decrypted Grok Bot 1.16.0 (23152), arm64 IPA, with the app and all three extensions decrypted, and generate the app with the patch tool. The tool injects `ios/bin/GrokBotLocal.dylib`, the same file as `GrokBotLocal.dylib` on the [releases page](https://github.com/aha-duoduoduo/ProkBot/releases), and applies the byte patches; do not inject the dylib alone. If the user has no decrypted IPA, sign and install `ProkBot-iOS-1.16.0-unsigned.ipa` from the [Gitee v2026.11.02 release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02), or generate it from `GrokBot-1.16.0-23152-decrypted-clean.ipa` on the [Gitee v2026.11.01 release](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.01):
 
 ```sh
 python3 ios/release/patch-ios.py \

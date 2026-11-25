@@ -6,7 +6,9 @@
 
 ## 使用
 
-已注入补丁、可以直接签名安装的 IPA 在 [Gitee v2026.11.02 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)；想自己注入时，清理后的 1.16.0（23152）原版 IPA 在 [Gitee v2026.11.01 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.01)。
+用补丁工具把 `GrokBotLocal.dylib` 注入自备的已解密 IPA，再用自己的证书签名安装。`GrokBotLocal.dylib` 在[发行页](https://github.com/aha-duoduoduo/ProkBot/releases)提供，和 `bin/` 里的是同一个文件，工具会核对摘要。只注入 dylib 不够，工具还会应用固定的字节补丁，所以一定要用补丁工具生成。
+
+也可以直接签名安装 [Gitee v2026.11.02 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)里已注入补丁的 IPA；清理后的 1.16.0（23152）原版 IPA 在 [Gitee v2026.11.01 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.01)。自己生成的命令：
 
 ```sh
 python3 release/patch-ios.py \

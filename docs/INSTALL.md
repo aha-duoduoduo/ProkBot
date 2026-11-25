@@ -23,7 +23,7 @@ docker compose -f release/compose.yaml exec host cat /data/setup-key
 | 客户端 | 原文件 | 操作 |
 | --- | --- | --- |
 | Mac | 工具按本机芯片自动下载 Grok Bot 0.71.2 原版（Apple Silicon；Intel 为实验支持） | 按 [Mac 说明](../mac/README.md)生成 App，移入「应用程序」 |
-| iOS | 已解密的 Grok Bot 1.16.0（23152）arm64 IPA，主应用及三个扩展都必须是已解密的；也可以直接用 [Gitee 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)已注入的未签名 IPA | 按 [iOS 说明](../ios/README.md)生成 IPA，自行签名安装 |
+| iOS | 自备已解密的 Grok Bot 1.16.0（23152）arm64 IPA，主应用及三个扩展都必须是已解密的；也可以直接用 [Gitee 发行页](https://gitee.com/ahaduoduoduo/ProkBot/releases/tag/v2026.11.02)已注入补丁的未签名 IPA | 按 [iOS 说明](../ios/README.md)用补丁工具注入[发行页](https://github.com/aha-duoduoduo/ProkBot/releases)的 `GrokBotLocal.dylib` 并应用字节补丁，再自行签名安装 |
 
 打开客户端，填写 Host 地址和六位配对码。
 
