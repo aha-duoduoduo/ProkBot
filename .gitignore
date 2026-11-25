@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+.DS_Store
+inputs/
+output/
+*.ipa
+*.app/
+*.dmg
+*.p8
+*.p12
+*.mobileprovision
+*.noindex/
+.cache/
+
+.env
+.env.*
+!.env.example
+
+# Host service dependencies for local tests (the image installs its own)
+host/server/node_modules/
