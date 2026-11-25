@@ -8,6 +8,8 @@ Mac · iOS 客户端补丁 ｜ Host 支持 x86_64 和 ARM64 ｜ 支持 OpenAI Ch
 
 如果您需要网页版/Android/Windows 版本，可查看本项目的优质 fork 实现 [ProkBot Plus](https://github.com/ferretgeek/prokbot-plus)。
 
+本项目原先由 GitHub 账号 ahaduoduoduo 发布。该账号被停用后，项目转到当前账号 aha-duoduoduo 继续维护。Gitee 账号 [ahaduoduoduo](https://gitee.com/ahaduoduoduo) 同步发布本项目：[ahaduoduoduo/ProkBot](https://gitee.com/ahaduoduoduo/ProkBot)。
+
 <p>
   <img alt="macOS 0.71.2" src="https://img.shields.io/badge/macOS-0.71.2-111111?logo=apple&logoColor=white">
   <img alt="iOS 1.16.0" src="https://img.shields.io/badge/iOS-1.16.0-111111?logo=apple&logoColor=white">

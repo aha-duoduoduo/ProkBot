@@ -8,6 +8,8 @@ Mac · iOS client patches ｜ Host on x86_64 and ARM64 ｜ OpenAI Chat, OpenAI R
 
 If you need the web, Android or Windows version, see [ProkBot Plus](https://github.com/ferretgeek/prokbot-plus), a quality fork of this project.
 
+This project was first published by the GitHub account ahaduoduoduo. After that account was suspended, the project moved to the current account, aha-duoduoduo. The Gitee account [ahaduoduoduo](https://gitee.com/ahaduoduoduo) also publishes it: [ahaduoduoduo/ProkBot](https://gitee.com/ahaduoduoduo/ProkBot).
+
 <p>
   <img alt="macOS 0.71.2" src="https://img.shields.io/badge/macOS-0.71.2-111111?logo=apple&logoColor=white">
   <img alt="iOS 1.16.0" src="https://img.shields.io/badge/iOS-1.16.0-111111?logo=apple&logoColor=white">
