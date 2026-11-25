@@ -1,3 +1,13 @@
+# v2026.11.26
+
+Update the Host and the Mac app; iOS does not need an update. Back up the Host data with `release/backup.py` before upgrading, and regenerate the Mac app with the new Patcher before replacing the installed one.
+
+- Host: when a device had been offline for a long time and many notifications had piled up, the Host dropped its subscription, the device kept reconnecting, and the foreground never received notifications. This is fixed.
+- Host: the built-in Tailcat gets the same fix as iOS v2026.11.02, so it no longer reports a stale connection as ready after sleep or a network change.
+- Host: at startup it also checks the modules the generated runtime files import, and refuses to start if any were changed.
+- Mac: the main executable and its helpers use UUIDs of their own, so they no longer share local network permission with the official client. After you replace the app, macOS may ask for local network access again the first time it connects to a Host on the LAN.
+- Mac: the install guides now explain signing. Build with `--identity auto` when you have a certificate so a Bot can operate this Mac; without one, create one for free in Xcode, or keep the default command and go without local control.
+
 # v2026.11.25
 
 Merges the server and Mac improvements from [ProkBot Plus](https://github.com/ferretgeek/prokbot-plus). Update the Host and the Mac app; iOS does not need an update. Back up the Host data with `release/backup.py` before upgrading.

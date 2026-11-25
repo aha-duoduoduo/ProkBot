@@ -57,7 +57,12 @@ Host 镜像按 Docker 所在机器的架构构建（amd64 或 arm64）；Linux �
 node mac/patchers/desktop/patch.mjs
 ```
 
-用户需要本机图形控制且已有签名证书时，增加 `--identity auto`。下载失败时，按 Patcher 提示请用户提供原版 `.app` / `.dmg`，用 `--source` 继续。
+生成前先运行 `security find-identity -v -p codesigning`：
+
+- 列出 Apple Development 或 Developer ID Application 证书时，在命令后加 `--identity auto`。这样生成的 App 可以使用本机图形控制。
+- 没有证书时，告诉用户：默认命令生成的 App 用不了本机图形控制，建议先在 Xcode 里创建一个 Apple Development 证书，免费的 Apple 账号就可以，步骤见 [安装说明](INSTALL.md)的「Mac 签名与本机控制」。登录 Apple 账号需要用户自己完成。用户创建好以后加 `--identity auto` 生成；用户不想创建时，直接用默认命令。
+
+下载失败时，按 Patcher 提示请用户提供原版 `.app` / `.dmg`，用 `--source` 继续。
 
 将生成的 `mac/output.noindex/Grok Bot.app` 安装到「应用程序」。已有客户端更新时先压缩备份，保留原用户配置；构建与临时 App 放在 `.noindex` 目录。打开 App，填写 Host 地址和新的配对码，按访问方式启用 Tailcat。需要本机控制时，请用户完成辅助功能与屏幕录制授权，并验证一次电脑操作。
 

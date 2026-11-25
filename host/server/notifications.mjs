@@ -3,6 +3,9 @@ import { join } from "node:path";
 import { JsonStore } from "./storage.mjs";
 import { check } from "./security.mjs";
 
+const slowClientLimit = 256 * 1024;
+const event = (item) => `id: ${item.id}\nevent: notification\ndata: ${JSON.stringify(item)}\n\n`;
+
 export class Notifications {
   constructor(dataDir, { retain = 1000, onPublish } = {}) {
     this.store = new JsonStore(join(dataDir, "notifications.json"), {
@@ -12,6 +15,7 @@ export class Notifications {
     this.retain = retain;
     this.onPublish = onPublish;
     this.clients = new Set();
+    this.backlogs = new WeakMap();
   }
   async load() {
     await this.store.load();
@@ -76,10 +80,11 @@ export class Notifications {
   }
   send(response, item) {
     if (response.destroyed || response.writableEnded) return;
-    if (response.writableLength > 256 * 1024) return response.destroy();
-    response.write(
-      `id: ${item.id}\nevent: notification\ndata: ${JSON.stringify(item)}\n\n`,
-    );
+    if (response.writableLength > this.limit(response)) return response.destroy();
+    response.write(event(item));
+  }
+  limit(response) {
+    return slowClientLimit + (this.backlogs.get(response) ?? 0);
   }
   subscribe(request, response) {
     response.writeHead(200, {
@@ -88,12 +93,15 @@ export class Notifications {
       "x-accel-buffering": "no",
     });
     response.flushHeaders();
+    // The retained backlog is bounded. Replay it whole so a client that was
+    // offline for a long time can advance its cursor; only later unflushed
+    // output counts as a slow client.
+    const backlog = this.list(request.headers["last-event-id"]).map(event).join("") + ": connected\n\n";
+    this.backlogs.set(response, Buffer.byteLength(backlog));
     this.clients.add(response);
-    for (const item of this.list(request.headers["last-event-id"]))
-      this.send(response, item);
-    response.write(": connected\n\n");
+    response.write(backlog);
     const heartbeat = setInterval(() => {
-      if (response.writableLength > 256 * 1024) response.destroy();
+      if (response.writableLength > this.limit(response)) response.destroy();
       else response.write(": heartbeat\n\n");
     }, 15_000);
     heartbeat.unref();

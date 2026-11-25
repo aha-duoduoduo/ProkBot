@@ -1,3 +1,13 @@
+# v2026.11.26
+
+Host 和 Mac 都建议更新，iOS 不需要。升级 Host 前，先用 `release/backup.py` 备份数据；Mac 要用新版补丁工具重新生成 App，再替换已安装的 App。
+
+- Host：设备离线很久、积压的通知太多时，订阅连接会被 Host 断开并反复重连，前台收不到通知。这个问题已经修复。
+- Host：内置的 Tailcat 换成和 iOS v2026.11.02 相同的修复版本，休眠或切换网络后不再误报已连接。
+- Host：启动时也会核对运行文件引用的模块，文件被改动过时拒绝启动。
+- Mac：主程序和 Helper 改用独立的 UUID，避免和官方客户端共用本地网络权限；替换后第一次连接局域网 Host 时，系统可能会重新询问本地网络授权。
+- Mac：安装说明补充了签名的做法。有证书时加 `--identity auto` 生成，Bot 才能操作这台 Mac；没有证书可以先用 Xcode 免费创建一个，也可以直接用默认命令，只是用不了本机控制。
+
 # v2026.11.25
 
 合并 [ProkBot Plus](https://github.com/ferretgeek/prokbot-plus) 的服务端和 Mac 改进。Host 和 Mac 都需要更新，iOS 不需要。升级 Host 前，先用 `release/backup.py` 备份数据。

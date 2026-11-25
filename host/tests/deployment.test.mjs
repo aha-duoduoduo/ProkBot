@@ -9,11 +9,17 @@ import { createServer } from 'node:http';
 import { previousImageLink, provisionResources } from '../runtime/host-resources.mjs';
 import { checkDeploymentHealth } from '../deploy/healthcheck.mjs';
 import { HostSupervisor } from '../deploy/host-supervisor.mjs';
+import { existsSync } from 'node:fs';
+
+// The deployment tools read pinned inputs from the generated Host release tree.
+const missingRelease = !existsSync(new URL('../recipes/host/manifest.json', import.meta.url))
+  && 'needs the Host release tree from release/build-host.py';
 
 for (const [script, name] of [['deployment_checks.py', 'deployment platform and mode selection'],
   ['deployment_identity.py', 'same-daemon recovery identity and shared image-tag transactions'],
   ['deployment_data.py', 'Host data tree initialization'],
-  ['deployment_volumes.py', 'isolated upgrade, archive round trips and fail-closed recovery']]) test(name, () => {
+  ['deployment_volumes.py', 'isolated upgrade, archive round trips and fail-closed recovery']]) test(name, {
+  skip: script === 'deployment_data.py' ? false : missingRelease }, () => {
   const result = spawnSync(process.platform === 'win32' ? 'python' : 'python3',
     ['-B', fileURLToPath(new URL(script, import.meta.url))], { encoding: 'utf8', timeout: 90_000 });
   assert.ifError(result.error);

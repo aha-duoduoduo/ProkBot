@@ -27,7 +27,15 @@ docker compose -f release/compose.yaml exec host cat /data/setup-key
 
 打开客户端，填写 Host 地址和六位配对码。
 
-Mac 本机图形控制需要证书签名；iOS 主应用及扩展的签名配置见[扩展签名](../ios/docs/SIGNING.md)。
+### Mac 签名与本机控制
+
+默认命令生成的 Mac App 使用临时签名，没有 Team ID。对话、配对和远程访问都能正常使用，但 Bot 不能操作这台 Mac 的图形界面，因为原版的本机控制辅助程序只接受带 Team ID 的签名。
+
+- **已有证书**：推荐在命令后加 `--identity auto`。在终端运行 `security find-identity -v -p codesigning`，列出 Apple Development 或 Developer ID Application 证书就可以用。工具优先使用 Developer ID Application，其次是 Apple Development；找不到可用的证书时会报错退出，不会生成 App。
+- **还没有证书**：建议先创建一个，免费的 Apple 账号就可以。安装 Xcode，打开菜单 Xcode → Settings → Accounts，点左下角的「+」登录 Apple 账号；选中账号下的团队，点「Manage Certificates…」，再点「+」选择「Apple Development」。创建好以后，加 `--identity auto` 重新生成。
+- **不想创建证书**：直接用默认命令也可以，代价是用不了本机控制，其他功能不受影响。
+
+iOS 主应用及扩展的签名配置见[扩展签名](../ios/docs/SIGNING.md)。
 
 ## 3. 连接其他设备
 

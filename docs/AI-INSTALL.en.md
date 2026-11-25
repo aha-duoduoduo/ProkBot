@@ -57,7 +57,12 @@ On the user's Mac, run from the repository root:
 node mac/patchers/desktop/patch.mjs
 ```
 
-Add `--identity auto` when local graphical control is requested and an existing certificate is available. If downloading fails, follow the Patcher's instructions: ask for an original `.app` / `.dmg` and use `--source`.
+Before building, run `security find-identity -v -p codesigning`:
+
+- If it lists an Apple Development or Developer ID Application certificate, add `--identity auto` to the command. The resulting app can use local graphical control.
+- If there is no certificate, tell the user that an app built with the default command cannot use local graphical control, and suggest creating an Apple Development certificate in Xcode first; a free Apple account is enough. The steps are under "Mac signing and local control" in the [installation guide](INSTALL.en.md). The user has to sign in to their Apple account themselves. Once the certificate exists, build with `--identity auto`; if the user would rather not create one, use the default command.
+
+If downloading fails, follow the Patcher's instructions: ask for an original `.app` / `.dmg` and use `--source`.
 
 Install `mac/output.noindex/Grok Bot.app` into Applications. Zip an existing app before updating and preserve its user configuration. Keep builds and temporary apps in `.noindex` directories. Open the app, enter the Host address and a new pairing code, and enable Tailcat when selected. For local control, ask the user to grant Accessibility and Screen Recording access and verify a computer operation.
 
